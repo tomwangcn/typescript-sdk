@@ -1,0 +1,45 @@
+diff --git a/dist/commonjs/dereference.js b/dist/commonjs/dereference.js
+index 7bf92249f8d658062c97026ba8bcfcbbec5e74d8..4b3034d376482d8bca6e74342735e4213bf10fb0 100644
+--- a/dist/commonjs/dereference.js
++++ b/dist/commonjs/dereference.js
+@@ -62,7 +62,9 @@ exports.initialBaseURI = typeof self !== 'undefined' &&
+     self.location &&
+     self.location.origin !== 'null'
+     ?
+-        new URL(self.location.origin + self.location.pathname + location.search)
++        // location.href is always a valid absolute URL, including for blob: documents,
++        // whose pathname is itself an absolute URL (origin + pathname is not valid there).
++        new URL(self.location.href)
+     : new URL('https://github.com/cfworker');
+ function dereference(schema, lookup = Object.create(null), baseURI = exports.initialBaseURI, basePointer = '') {
+     if (schema && typeof schema === 'object' && !Array.isArray(schema)) {
+diff --git a/dist/esm/dereference.js b/dist/esm/dereference.js
+index 81805bacf312b327b934a3132df8e571c27e6a68..a6ce99cbb7c59dd77cd79951ab4afa02e017ea3b 100644
+--- a/dist/esm/dereference.js
++++ b/dist/esm/dereference.js
+@@ -58,7 +58,9 @@ export let initialBaseURI = typeof self !== 'undefined' &&
+     self.location &&
+     self.location.origin !== 'null'
+     ?
+-        new URL(self.location.origin + self.location.pathname + location.search)
++        // location.href is always a valid absolute URL, including for blob: documents,
++        // whose pathname is itself an absolute URL (origin + pathname is not valid there).
++        new URL(self.location.href)
+     : new URL('https://github.com/cfworker');
+ export function dereference(schema, lookup = Object.create(null), baseURI = initialBaseURI, basePointer = '') {
+     if (schema && typeof schema === 'object' && !Array.isArray(schema)) {
+diff --git a/src/dereference.ts b/src/dereference.ts
+index cf0f92e933f6bdd53be7a2304a83fc9ed004a661..8d7105bbed530f1c7b2768060f3da4113aac8d89 100644
+--- a/src/dereference.ts
++++ b/src/dereference.ts
+@@ -71,7 +71,9 @@ export let initialBaseURI: URL =
+   self.location &&
+   self.location.origin !== 'null'
+     ? //@ts-ignore
+-      new URL(self.location.origin + self.location.pathname + location.search)
++      // location.href is always a valid absolute URL, including for blob: documents,
++      // whose pathname is itself an absolute URL (origin + pathname is not valid there).
++      new URL(self.location.href)
+     : new URL('https://github.com/cfworker');
+ 
+ export function dereference(

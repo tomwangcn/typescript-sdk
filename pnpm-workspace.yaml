@@ -75,3 +75,6 @@ onlyBuiltDependencies:
 
 ignoredBuiltDependencies:
     - unrs-resolver
+
+patchedDependencies:
+    '@cfworker/json-schema@4.1.1': patches/@cfworker__json-schema@4.1.1.patch
